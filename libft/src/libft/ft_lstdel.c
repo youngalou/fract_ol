@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 15:13:27 by lyoung           ###   ########.fr       */
+/*   Created: 2017/03/12 11:10:23 by lyoung            #+#    #+#             */
+/*   Updated: 2017/03/13 10:32:09 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
-# include "libft/superlibft.h"
-# include "minilibx/mlx.h"
-# include <math.h>
+#include "libft.h"
 
-# define WIN_W	1200
-# define WIN_H	1200
-# define BOUND	100
-
-typedef struct	s_env
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	int			*pixels;
-	int			bpp;
-	int			sl;
-	int			endian;
-	double		ca;
-	double		cb;
-	double		ja;
-	double		jb;
-}				t_env;
+	t_list	*list;
+	t_list	*nextlist;
 
-#endif
+	list = *alst;
+	while (list)
+	{
+		nextlist = list->next;
+		del(list->content, list->content_size);
+		free(list);
+		list = nextlist;
+	}
+	*alst = 0;
+}

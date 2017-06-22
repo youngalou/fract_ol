@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 15:13:27 by lyoung           ###   ########.fr       */
+/*   Created: 2017/04/06 15:27:37 by lyoung            #+#    #+#             */
+/*   Updated: 2017/06/06 15:45:13 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
-# include "libft/superlibft.h"
-# include "minilibx/mlx.h"
-# include <math.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include "../libft/libft.h"
+# include <fcntl.h>
+# define BUFF_SIZE 2048
 
-# define WIN_W	1200
-# define WIN_H	1200
-# define BOUND	100
-
-typedef struct	s_env
-{
-	void		*mlx;
-	void		*win;
-	void		*img;
-	int			*pixels;
-	int			bpp;
-	int			sl;
-	int			endian;
-	double		ca;
-	double		cb;
-	double		ja;
-	double		jb;
-}				t_env;
+int		get_next_line(const int fd, char **line);
 
 #endif

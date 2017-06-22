@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 15:13:27 by lyoung           ###   ########.fr       */
+/*   Created: 2017/02/28 12:36:39 by lyoung            #+#    #+#             */
+/*   Updated: 2017/02/28 13:06:18 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
-# include "libft/superlibft.h"
-# include "minilibx/mlx.h"
-# include <math.h>
-
-# define WIN_W	1200
-# define WIN_H	1200
-# define BOUND	100
-
-typedef struct	s_env
+char	*ft_strcat(char *s1, const char *s2)
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	int			*pixels;
-	int			bpp;
-	int			sl;
-	int			endian;
-	double		ca;
-	double		cb;
-	double		ja;
-	double		jb;
-}				t_env;
+	int		i;
+	int		j;
 
-#endif
+	i = 0;
+	j = 0;
+	while (s1[i])
+		i++;
+	while (s2[j])
+	{
+		s1[i] = s2[j];
+		i++;
+		j++;
+	}
+	s1[i] = '\0';
+	return (s1);
+}

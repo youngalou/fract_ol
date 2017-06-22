@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 15:13:27 by lyoung           ###   ########.fr       */
+/*   Created: 2017/03/02 10:31:10 by lyoung            #+#    #+#             */
+/*   Updated: 2017/03/02 11:09:15 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
-# include "libft/superlibft.h"
-# include "minilibx/mlx.h"
-# include <math.h>
+#include "libft.h"
 
-# define WIN_W	1200
-# define WIN_H	1200
-# define BOUND	100
-
-typedef struct	s_env
+void	*ft_memset(void *b, int c, size_t len)
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	int			*pixels;
-	int			bpp;
-	int			sl;
-	int			endian;
-	double		ca;
-	double		cb;
-	double		ja;
-	double		jb;
-}				t_env;
+	size_t			i;
+	unsigned char	*tab;
 
-#endif
+	i = 0;
+	tab = (unsigned char*)b;
+	while (i < len)
+	{
+		tab[i] = (unsigned char)c;
+		i++;
+	}
+	return (b);
+}

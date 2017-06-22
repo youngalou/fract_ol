@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 15:13:27 by lyoung           ###   ########.fr       */
+/*   Created: 2017/03/03 17:29:47 by lyoung            #+#    #+#             */
+/*   Updated: 2017/04/17 14:04:43 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
-# include "libft/superlibft.h"
-# include "minilibx/mlx.h"
-# include <math.h>
+#include "libft.h"
+#include <stdlib.h>
 
-# define WIN_W	1200
-# define WIN_H	1200
-# define BOUND	100
-
-typedef struct	s_env
+char	*ft_strndup(const char *src, size_t len)
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	int			*pixels;
-	int			bpp;
-	int			sl;
-	int			endian;
-	double		ca;
-	double		cb;
-	double		ja;
-	double		jb;
-}				t_env;
+	char		*dst;
+	char		*cdst;
 
-#endif
+	dst = (char*)malloc(sizeof(char) * (len + 1));
+	if (!dst)
+		return (NULL);
+	cdst = dst;
+	len++;
+	while (--len > 0)
+		*dst++ = *src++;
+	*dst = '\0';
+	return (cdst);
+}

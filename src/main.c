@@ -6,13 +6,13 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:15:01 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 13:36:24 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/22 15:21:10 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 
-int		mandelbrot(t_env *env, double x, double y)
+int		julia(t_env *env, int x, int y)
 {
 	int		i;
 	double	a;
@@ -20,12 +20,34 @@ int		mandelbrot(t_env *env, double x, double y)
 	double	aa;
 	double	bb;
 
-	a = (x - (WIN_W / 2)) / (WIN_W / 4);
-	b = (y - (WIN_H / 2)) / (WIN_H / 4);
+	a = ((double)x - (WIN_W / 2)) / (WIN_W / 4);
+	b = ((double)y - (WIN_H / 2)) / (WIN_H / 4);
+	i = 0;
+	while (i < BOUND && a + b <= 16)
+	{
+		aa = (a * a) - (b * b);
+		bb = 2 * a * b;
+		a = aa + env->ja;
+		b = bb + env->jb;
+		i++;
+	}
+	return (i);
+}
+
+int		mandelbrot(t_env *env, int x, int y)
+{
+	int		i;
+	double	a;
+	double	b;
+	double	aa;
+	double	bb;
+
+	a = ((double)x - (WIN_W / 2)) / (WIN_W / 4);
+	b = ((double)y - (WIN_H / 2)) / (WIN_H / 4);
 	env->ca = a;
 	env->cb = b;
 	i = 0;
-	while (i < 100 && a + b <= 16)
+	while (i < BOUND && a + b <= 16)
 	{
 		aa = (a * a) - (b * b);
 		bb = 2 * a * b;
@@ -36,26 +58,27 @@ int		mandelbrot(t_env *env, double x, double y)
 	return (i);
 }
 
-void	draw_fractal(t_env *env)
+void	draw_fractal(t_env *env, int (*f)(t_env *env, int x, int y))
 {
-	double	y;
-	double	x;
+	int		y;
+	int		x;
 	int		i;
-	int		color;
 
+	env->img = mlx_new_image(env->mlx, WIN_W, WIN_H);
+	env->pixels = (int*)mlx_get_data_addr(env->img, &env->bpp, &env->sl, &env->endian);
 	y = 0;
 	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
-			i = mandelbrot(env, x, y);
-			color = ((i < 100) ? i * 500000 : 0);
-			mlx_pixel_put(env->mlx, env->win, x, y, color);
+			i = (*f)(env, x, y);
+			env->pixels[x + (y * WIN_W)] = ((i < BOUND) ? i * 500000 : 0);
 			x++;
 		}
 		y++;
 	}
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }	
 
 void	call_set(t_env *env, char *arg)
@@ -69,7 +92,12 @@ void	call_set(t_env *env, char *arg)
 	if (*(arg + 1) == 'M')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Mandelbrot Set");
-		draw_fractal(env);
+		draw_fractal(env, &mandelbrot);
+	}
+	else if (*(arg + 1) == 'J')
+	{
+		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Julia Set");
+		draw_fractal(env, &julia);
 	}
 	mlx_loop(env->mlx);
 }
@@ -81,8 +109,14 @@ t_env	*init_env(void)
 	env = (t_env*)malloc(sizeof(t_env));
 	env->mlx = 0;
 	env->win = 0;
+	env->img = 0;
+	env->bpp = 4;
+	env->sl = 0;
+	env->endian = 0;
 	env->ca = 0;
 	env->cb = 0;
+	env->ja = .8;
+	env->jb = .156;
 	return (env);
 }
 

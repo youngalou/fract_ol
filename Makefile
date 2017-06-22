@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/07 13:21:13 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/22 12:01:03 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/22 13:52:02 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,13 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(MLX) $(LIBFT) $(OBJ)
+$(NAME): $(MLX) $(LIBFT) $(OBJ) fractol.h
 	@gcc -o $(NAME) $(CFLAG) $(OBJ) $(MLX) $(LIBFT) $(MLXFLAG)
 	@echo "\033[32m- fractol executable compiled\033[0m"
 
 $(OBJ): %.o: %.c
 	@gcc -c $(CFLAG) $< -o $@
+	@echo "\033[31m- fractol object files created\033[0m"
 
 $(MLX):
 	@make -C minilibx
@@ -43,7 +44,8 @@ clean:
 	@echo "\033[31m- fractol object files removed\033[0m"
 
 fclean: clean
-	@rm -f fdf
+	@rm -f $(NAME)
+	@echo "\033[31m- fractol executable removed\033[0m"
 	@make -C minilibx clean
 	@echo "\033[31m- libmlx.a removed\033[0m"
 	@make -C libft fclean
