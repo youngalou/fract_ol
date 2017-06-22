@@ -6,57 +6,11 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:15:01 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 15:21:10 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/22 16:23:13 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
-
-int		julia(t_env *env, int x, int y)
-{
-	int		i;
-	double	a;
-	double	b;
-	double	aa;
-	double	bb;
-
-	a = ((double)x - (WIN_W / 2)) / (WIN_W / 4);
-	b = ((double)y - (WIN_H / 2)) / (WIN_H / 4);
-	i = 0;
-	while (i < BOUND && a + b <= 16)
-	{
-		aa = (a * a) - (b * b);
-		bb = 2 * a * b;
-		a = aa + env->ja;
-		b = bb + env->jb;
-		i++;
-	}
-	return (i);
-}
-
-int		mandelbrot(t_env *env, int x, int y)
-{
-	int		i;
-	double	a;
-	double	b;
-	double	aa;
-	double	bb;
-
-	a = ((double)x - (WIN_W / 2)) / (WIN_W / 4);
-	b = ((double)y - (WIN_H / 2)) / (WIN_H / 4);
-	env->ca = a;
-	env->cb = b;
-	i = 0;
-	while (i < BOUND && a + b <= 16)
-	{
-		aa = (a * a) - (b * b);
-		bb = 2 * a * b;
-		a = aa + env->ca;
-		b = bb + env->cb;
-		i++;
-	}
-	return (i);
-}
 
 void	draw_fractal(t_env *env, int (*f)(t_env *env, int x, int y))
 {
@@ -98,7 +52,9 @@ void	call_set(t_env *env, char *arg)
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Julia Set");
 		draw_fractal(env, &julia);
+		mlx_hook(env->win, 6, 0, mouse_pos, env);
 	}
+	mlx_key_hook(env->win, key_command, env);
 	mlx_loop(env->mlx);
 }
 
@@ -115,8 +71,8 @@ t_env	*init_env(void)
 	env->endian = 0;
 	env->ca = 0;
 	env->cb = 0;
-	env->ja = .8;
-	env->jb = .156;
+	env->ja = .156;
+	env->jb = .8;
 	return (env);
 }
 

@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/07 13:21:13 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/22 13:52:02 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/22 15:41:21 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ MLX = minilibx/libmlx.a
 LIBFT = libft/libft.a
 
 FILES = main.c \
+		fractals.c \
+		key_command.c \
 
 SRC = $(addprefix src/, $(FILES))
 
@@ -29,8 +31,7 @@ $(NAME): $(MLX) $(LIBFT) $(OBJ) fractol.h
 	@echo "\033[32m- fractol executable compiled\033[0m"
 
 $(OBJ): %.o: %.c
-	@gcc -c $(CFLAG) $< -o $@
-	@echo "\033[31m- fractol object files created\033[0m"
+	gcc -c $(CFLAG) $< -o $@
 
 $(MLX):
 	@make -C minilibx
