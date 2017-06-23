@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:15:01 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 18:29:32 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/22 18:59:09 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,25 @@ void	draw_fractal(t_env *env, int y, int end_y)
 
 void	call_set(t_env *env, char *arg)
 {
-	env->mlx = mlx_init();
-	if (!*(arg + 1))
+	if (!*(arg + 1) || (*(arg + 1) != 'M' && *(arg + 1) != 'J'))
 	{
 		ft_printf("%{red}Invalid arguments.%{eoc}\nUsage:\t./fractol [-MJ]\n");
 		return ;
 	}
+	env->mlx = mlx_init();
+	env->img = mlx_new_image(env->mlx, WIN_W, WIN_H);
+	env->pixels = (int*)mlx_get_data_addr(env->img, &env->bpp, &env->sl, &env->endian);
 	if (*(arg + 1) == 'M')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Mandelbrot Set");
-		env->img = mlx_new_image(env->mlx, WIN_W, WIN_H);
-		env->pixels = (int*)mlx_get_data_addr(env->img, &env->bpp, &env->sl, &env->endian);
 		env->f = &mandelbrot;
-		multithread(env);
+		draw_fractal(env, 0, WIN_H);
+		mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+		//multithread(env);
 	}
 	else if (*(arg + 1) == 'J')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Julia Set");
-		env->img = mlx_new_image(env->mlx, WIN_W, WIN_H);
-		env->pixels = (int*)mlx_get_data_addr(env->img, &env->bpp, &env->sl, &env->endian);
 		env->f = &julia;
 		multithread(env);
 		mlx_hook(env->win, 6, 0, mouse_pos, env);
