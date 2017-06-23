@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/07 13:21:13 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/22 15:41:21 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/22 18:27:46 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ MLX = minilibx/libmlx.a
 LIBFT = libft/libft.a
 
 FILES = main.c \
+		multithread.c \
 		fractals.c \
 		key_command.c \
 

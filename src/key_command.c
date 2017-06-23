@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 15:34:38 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 16:06:12 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/22 17:54:03 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int		mouse_pos(int x, int y, t_env *env)
 	env->ja = (((double)x - WIN_W) / (WIN_W / 2)) + 1;
 	env->jb = (((double)y - WIN_H) / (WIN_H / 2)) + 1;
 	mlx_clear_window(env->mlx, env->win);
-	draw_fractal(env, &julia);
+	multithread(env);
 	return (0);
 }

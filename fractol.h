@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 16:10:49 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/22 18:28:08 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,24 @@ typedef struct	s_env
 	double		cb;
 	double		ja;
 	double		jb;
+	pthread_t	tid[10];
+	int			(*f)(struct s_env *env, int x, int y);
 }				t_env;
 
 /*
 ** --------------- main.c --------------
 */
 
-void			draw_fractal(t_env *env, int (*f)(t_env *env, int x, int y));
+void			draw_fractal(t_env *env, int y, int end_y);
 void			call_set(t_env *env, char *arg);
 t_env			*init_env(void);
+
+/*
+** --------------- mulithread.c --------------
+*/
+
+void			multithread(t_env *env);
+void			*find_thread(void *env);
 
 /*
 ** --------------- fractals.c --------------
