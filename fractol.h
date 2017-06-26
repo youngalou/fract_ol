@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 18:28:08 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/23 13:03:53 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ typedef struct	s_env
 	double		cb;
 	double		ja;
 	double		jb;
+	double		zoom;
+	int			x0;
+	int			y0;
+	int			drawn;
 	pthread_t	tid[10];
 	int			(*f)(struct s_env *env, int x, int y);
 }				t_env;
@@ -44,6 +48,7 @@ typedef struct	s_env
 
 void			draw_fractal(t_env *env, int y, int end_y);
 void			call_set(t_env *env, char *arg);
+void			reset(t_env *env);
 t_env			*init_env(void);
 
 /*
@@ -59,12 +64,15 @@ void			*find_thread(void *env);
 
 int				julia(t_env *env, int x, int y);
 int				mandelbrot(t_env *env, int x, int y);
+int				sierpinski(t_env *env, int x, int y);
 
 /*
 ** --------------- key_command.c --------------
 */
 
 int				key_command(int key, t_env *env);
+int				mouse_sierp(int key, int x, int y, t_env *env);
+int				mouse_mand(int key, int x, int y, t_env *env);
 int				mouse_pos(int x, int y, t_env *env);
 
 #endif

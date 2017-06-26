@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 18:25:11 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/22 18:25:57 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/23 11:56:21 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	multithread(t_env *env)
 {
 	int		i;
 
+	if (env->drawn)
+	{
+		mlx_clear_window(env->mlx, env->win);
+		env->drawn = 0;
+	}
 	i = 0;
 	while (i < 10)
 	{
@@ -29,6 +34,7 @@ void	multithread(t_env *env)
 		i++;
 	}
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+	env->drawn = 1;
 }
 
 void	*find_thread(void *env)
