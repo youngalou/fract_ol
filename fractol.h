@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/23 13:03:53 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/27 12:58:26 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 # define WIN_W	1200
 # define WIN_H	1200
+# define HALF_W	WIN_W / 2
+# define HALF_H	WIN_H / 2
 # define BOUND	100
 
 typedef struct	s_env
@@ -37,6 +39,8 @@ typedef struct	s_env
 	double		zoom;
 	int			x0;
 	int			y0;
+	int			x_trans;
+	int			y_trans;
 	int			drawn;
 	pthread_t	tid[10];
 	int			(*f)(struct s_env *env, int x, int y);
@@ -46,7 +50,6 @@ typedef struct	s_env
 ** --------------- main.c --------------
 */
 
-void			draw_fractal(t_env *env, int y, int end_y);
 void			call_set(t_env *env, char *arg);
 void			reset(t_env *env);
 t_env			*init_env(void);
@@ -62,6 +65,7 @@ void			*find_thread(void *env);
 ** --------------- fractals.c --------------
 */
 
+void			draw_fractal(t_env *env, int y, int end_y);
 int				julia(t_env *env, int x, int y);
 int				mandelbrot(t_env *env, int x, int y);
 int				sierpinski(t_env *env, int x, int y);
@@ -72,6 +76,7 @@ int				sierpinski(t_env *env, int x, int y);
 
 int				key_command(int key, t_env *env);
 int				mouse_sierp(int key, int x, int y, t_env *env);
+int				mouse_julia(int key, int x, int y, t_env *env);
 int				mouse_mand(int key, int x, int y, t_env *env);
 int				mouse_pos(int x, int y, t_env *env);
 

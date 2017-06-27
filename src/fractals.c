@@ -6,11 +6,29 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 15:29:11 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/26 11:11:54 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/27 13:22:52 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
+
+void	draw_fractal(t_env *env, int y, int end_y)
+{
+	int		x;
+	int		i;
+
+	while (y < end_y)
+	{
+		x = 0;
+		while (x < WIN_W)
+		{
+			i = env->f(env, x + env->x_trans, y + env->y_trans);
+			env->pixels[x + (y * WIN_W)] = ((i < BOUND) ? i * 500000 : 0);
+			x++;
+		}
+		y++;
+	}
+}
 
 int		sierpinski(t_env *env, int x, int y)
 {
@@ -40,8 +58,8 @@ int		julia(t_env *env, int x, int y)
 	double	aa;
 	double	bb;
 
-	a = ((double)x - (WIN_W / 2)) / (WIN_W / 4);
-	b = ((double)y - (WIN_H / 2)) / (WIN_H / 4);
+	a = ((double)x - HALF_W + env->x0) / ((WIN_W / 4) * env->zoom);
+	b = ((double)y - HALF_H + env->y0) / ((WIN_H / 4) * env->zoom);
 	i = 0;
 	while (i < BOUND && a + b <= 16)
 	{
@@ -62,10 +80,10 @@ int		mandelbrot(t_env *env, int x, int y)
 	double	aa;
 	double	bb;
 
-	a = ((double)x - (WIN_W / 2)) / (WIN_W / 4) / env->zoom;
-	b = ((double)y - (WIN_H / 2)) / (WIN_H / 4) / env->zoom;
-	env->ca = a / env->zoom;
-	env->cb = b / env->zoom;
+	a = ((double)x - HALF_W) / (WIN_W / 4) / env->zoom;
+	b = ((double)y - HALF_H) / (WIN_H / 4) / env->zoom;
+	env->ca = a;
+	env->cb = b;
 	i = 0;
 	while (i < BOUND && a + b <= 16)
 	{

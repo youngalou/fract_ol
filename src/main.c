@@ -6,29 +6,11 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:15:01 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/26 10:56:04 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/27 13:03:56 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
-
-void	draw_fractal(t_env *env, int y, int end_y)
-{
-	int		x;
-	int		i;
-
-	while (y < end_y)
-	{
-		x = 0;
-		while (x < WIN_W)
-		{
-			i = env->f(env, x + env->x0, y + env->y0);
-			env->pixels[x + (y * WIN_W)] = ((i < BOUND) ? i * 500000 : 0);
-			x++;
-		}
-		y++;
-	}
-}	
 
 void	call_set(t_env *env, char *arg)
 {
@@ -45,15 +27,16 @@ void	call_set(t_env *env, char *arg)
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Mandelbrot Set");
 		env->f = &mandelbrot;
 		multithread(env);
-		mlx_mouse_hook(env->win, mouse_mand, env);
 		//draw_fractal(env, 0, WIN_H);
 		//mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+		mlx_mouse_hook(env->win, mouse_mand, env);
 	}
 	else if (*(arg + 1) == 'J')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Julia Set");
 		env->f = &julia;
 		multithread(env);
+		mlx_mouse_hook(env->win, mouse_julia, env);
 		mlx_hook(env->win, 6, 0, mouse_pos, env);
 	}
 	else if (*(arg + 1) == 'S')
@@ -72,6 +55,8 @@ void	reset(t_env *env)
 	env->zoom = 1;
 	env->x0 = 0;
 	env->y0 = 0;
+	env->x_trans = 0;
+	env->y_trans = 0;
 	multithread(env);
 }
 
@@ -93,6 +78,8 @@ t_env	*init_env(void)
 	env->zoom = 1;
 	env->x0 = 0;
 	env->y0 = 0;
+	env->x_trans = 0;
+	env->y_trans = 0;
 	env->drawn = 0;
 	return (env);
 }
