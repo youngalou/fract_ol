@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 15:34:38 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/29 15:54:51 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 16:31:56 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		key_command(int key, t_env *env)
 			env->bound += 5;
 		multithread(env);
 	}
-	if (key >= 71 && key <= 91)
+	if (key >= 71 && key <= 92)
 		key_color(key, env);
 	if (key == 13 || (key >= 0 && key <= 2))
 	{
@@ -47,14 +47,20 @@ void	key_color(int key, t_env *env)
 		env->r -= 0x010000;
 	if (key == 84)
 		env->r += 0x010000;
+	if (key == 85)
+		env->r = 0;
 	if (key == 86)
 		env->g -= 0x000100;
 	if (key == 87)
 		env->g += 0x000100;
+	if (key == 88)
+		env->g = 0;
 	if (key == 89)
 		env->b -= 0x000001;
 	if (key == 91)
 		env->b += 0x000001;
+	if (key == 92)
+		env->b = 0;
 	if (key == 71)
 	{
 		env->r = 0x030000;
