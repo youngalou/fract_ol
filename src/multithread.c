@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 18:25:11 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/27 15:43:54 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 12:44:47 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*find_thread(void *env)
 	while (i < 10)
 	{
 		if (pthread_equal(pthread_self(), e->tid[i]))
-			draw_fractal(e, (i * (WIN_H / 10)), (i * (WIN_H / 10)) + WIN_H / 10);
+			draw_fractal(e, i * (WIN_H / 10), i * (WIN_H / 10) + (WIN_H / 10));
 		i++;
 	}
 	return (0);

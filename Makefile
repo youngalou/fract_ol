@@ -6,7 +6,7 @@
 #    By: lyoung <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/07 13:21:13 by lyoung            #+#    #+#              #
-#    Updated: 2017/06/27 15:46:03 by lyoung           ###   ########.fr        #
+#    Updated: 2017/06/29 16:12:05 by lyoung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ all: $(NAME)
 $(NAME): $(MLX) $(LIBFT) $(OBJ) fractol.h
 	@gcc -o $(NAME) $(CFLAG) $(OBJ) $(MLX) $(LIBFT) $(MLXFLAG) -g
 	@echo "\033[32m- fractol executable compiled\033[0m"
-	@make clean # make sure to remove before turn-in!
 
 $(OBJ): %.o: %.c
 	gcc -c $(CFLAG) $< -o $@

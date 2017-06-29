@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 15:29:11 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/29 10:45:07 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 16:09:34 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	draw_fractal(t_env *env, int y, int end_y)
 {
 	int		x;
 	int		i;
+	int		color;
 
 	while (y < end_y)
 	{
@@ -23,7 +24,8 @@ void	draw_fractal(t_env *env, int y, int end_y)
 		while (x < WIN_W)
 		{
 			i = env->f(env, x, y);
-			env->pixels[x + (y * WIN_W)] = ((i < BOUND) ? i * 500000 : 0);
+			color = (i * env->r) + (i * env->g) + (i * env->b);
+			env->pixels[x + (y * WIN_W)] = ((i < env->bound) ? color : 0);
 			x++;
 		}
 		y++;
@@ -36,10 +38,12 @@ int		sierpinski(t_env *env, int x, int y)
 	int		a;
 	int		b;
 
-	a = abs(x) / env->zoom;
-	b = abs(y) / env->zoom;
+	a = ((x - env->x_trans) / env->zoom) + env->x0;
+	b = ((y - env->y_trans) / env->zoom) + env->y0;
+	a = abs(a);
+	b = abs(b);
 	i = 0;
-	while (i < BOUND && (a > 0 || b > 0))
+	while (i < env->bound && (a > 0 || b > 0))
 	{
 		if (a % 3 == 1 && b % 3 == 1)
 			return (0);
@@ -61,7 +65,7 @@ int		julia(t_env *env, int x, int y)
 	i = 0;
 	a = ((double)x - env->x_trans) / ((WIN_W / 4) * env->zoom) + env->x0;
 	b = ((double)y - env->y_trans) / ((WIN_H / 4) * env->zoom) + env->y0;
-	while (i < BOUND && a + b <= 16)
+	while (i < env->bound && a + b <= 16)
 	{
 		aa = (a * a) - (b * b);
 		bb = 2 * a * b;
@@ -75,24 +79,19 @@ int		julia(t_env *env, int x, int y)
 int		mandelbrot(t_env *env, int x, int y)
 {
 	int		i;
-	double	a;
-	double	b;
-	double	aa;
-	double	bb;
-	double	ca;
-	double	cb;
+	double	tab[6];
 
-	a = ((double)x - env->x_trans) / ((WIN_W / 4) * env->zoom) + env->x0;
-	b = ((double)y - env->y_trans) / ((WIN_H / 4) * env->zoom) + env->y0;
-	ca = a;
-	cb = b;
+	tab[2] = ((double)x - env->x_trans) / ((WIN_W / 4) * env->zoom) + env->x0;
+	tab[3] = ((double)y - env->y_trans) / ((WIN_H / 4) * env->zoom) + env->y0;
+	tab[0] = tab[2];
+	tab[1] = tab[3];
 	i = 0;
-	while (i < BOUND && a + b <= 16)
+	while (i < env->bound && tab[2] + tab[3] <= 16)
 	{
-		aa = (a * a) - (b * b);
-		bb = 2 * a * b;
-		a = aa + ca;
-		b = bb + cb;
+		tab[4] = (tab[2] * tab[2]) - (tab[3] * tab[3]);
+		tab[5] = 2 * tab[2] * tab[3];
+		tab[2] = tab[4] + tab[0];
+		tab[3] = tab[5] + tab[1];
 		i++;
 	}
 	return (i);

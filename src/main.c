@@ -6,32 +6,38 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:15:01 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/29 10:50:34 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 15:51:16 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 
-void	call_set(t_env *env, char *arg)
+void	open_mlx(t_env *env, char arg)
 {
-	if (!*(arg + 1) || (*(arg + 1) != 'M' && *(arg + 1) != 'J' && *(arg + 1) != 'S'))
+	if (arg != 'M' && arg != 'J' && arg != 'S')
 	{
 		ft_printf("%{red}Invalid arguments.%{eoc}\nUsage:\t./fractol [-MJS]\n");
 		return ;
 	}
 	env->mlx = mlx_init();
 	env->img = mlx_new_image(env->mlx, WIN_W, WIN_H);
-	env->pixels = (int*)mlx_get_data_addr(env->img, &env->bpp, &env->sl, &env->endian);
-	if (*(arg + 1) == 'M')
+	env->pixels = (int*)mlx_get_data_addr(
+						env->img, &env->bpp, &env->sl, &env->endian);
+	call_set(env, arg);
+	mlx_hook(env->win, 2, 0, key_command, env);
+	mlx_loop(env->mlx);
+}
+
+void	call_set(t_env *env, char arg)
+{
+	if (arg == 'M')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Mandelbrot Set");
 		env->f = &mandelbrot;
 		multithread(env);
-		//draw_fractal(env, 0, WIN_H);
-		//mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
-		mlx_mouse_hook(env->win, mouse_mand, env);
+		mlx_mouse_hook(env->win, mouse_julia, env);
 	}
-	else if (*(arg + 1) == 'J')
+	else if (arg == 'J')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Julia Set");
 		env->f = &julia;
@@ -39,19 +45,18 @@ void	call_set(t_env *env, char *arg)
 		mlx_mouse_hook(env->win, mouse_julia, env);
 		mlx_hook(env->win, 6, 0, mouse_pos, env);
 	}
-	else if (*(arg + 1) == 'S')
+	else if (arg == 'S')
 	{
 		env->win = mlx_new_window(env->mlx, WIN_W, WIN_H, "Sierpinski Carpet");
 		env->f = &sierpinski;
 		multithread(env);
 		mlx_mouse_hook(env->win, mouse_sierp, env);
 	}
-	mlx_hook(env->win, 2, 0, key_command, env);
-	mlx_loop(env->mlx);
 }
 
 void	reset(t_env *env)
 {
+	env->bound = 100;
 	env->zoom = 1;
 	env->x0 = 0;
 	env->y0 = 0;
@@ -71,15 +76,19 @@ t_env	*init_env(void)
 	env->bpp = 4;
 	env->sl = 0;
 	env->endian = 0;
+	env->bound = 100;
 	env->ca = 0;
 	env->cb = 0;
-	env->ja = .295;
-	env->jb = .49;
+	env->ja = .388333;
+	env->jb = -.301667;
 	env->zoom = 1;
 	env->x0 = 0;
 	env->y0 = 0;
 	env->x_trans = HALF_W;
 	env->y_trans = HALF_H;
+	env->r = 0x030000;
+	env->g = 0x000300;
+	env->b = 0x000003;
 	env->drawn = 0;
 	env->lock = 1;
 	return (env);
@@ -89,15 +98,12 @@ int		main(int argc, char **argv)
 {
 	t_env	*env;
 
-	if (argc < 2)
-	{
-		ft_printf("%{red}Invalid arguments.%{eoc}\nUsage:\t./fractol [-MJS]\n");
-		return (0);
-	}
-	if (*argv[1] == '-')
+	if (argc > 1 && *argv[1] && *(argv[1] + 1) && *argv[1] == '-')
 	{
 		env = init_env();
-		call_set(env, argv[1]);
+		open_mlx(env, *(argv[1] + 1));
 	}
+	else
+		ft_printf("%{red}Invalid arguments.%{eoc}\nUsage:\t./fractol [-MJS]\n");
 	return (0);
 }
