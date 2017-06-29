@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:15:01 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/27 13:03:56 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 10:50:34 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	call_set(t_env *env, char *arg)
 		multithread(env);
 		mlx_mouse_hook(env->win, mouse_sierp, env);
 	}
-	mlx_key_hook(env->win, key_command, env);
+	mlx_hook(env->win, 2, 0, key_command, env);
 	mlx_loop(env->mlx);
 }
 
@@ -55,8 +55,8 @@ void	reset(t_env *env)
 	env->zoom = 1;
 	env->x0 = 0;
 	env->y0 = 0;
-	env->x_trans = 0;
-	env->y_trans = 0;
+	env->x_trans = HALF_W;
+	env->y_trans = HALF_H;
 	multithread(env);
 }
 
@@ -78,9 +78,10 @@ t_env	*init_env(void)
 	env->zoom = 1;
 	env->x0 = 0;
 	env->y0 = 0;
-	env->x_trans = 0;
-	env->y_trans = 0;
+	env->x_trans = HALF_W;
+	env->y_trans = HALF_H;
 	env->drawn = 0;
+	env->lock = 1;
 	return (env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 15:34:38 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/27 14:49:43 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 11:01:47 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 int		key_command(int key, t_env *env)
 {
-	//ft_printf("%d\n", key);
+	ft_printf("%d\n", key);
 	if (key == 53)
 		exit(0);
 	if (key == 48)
@@ -40,12 +40,14 @@ int		key_command(int key, t_env *env)
 	}
 	if (key == 13 || (key >= 0 && key <= 2))
 	{
-		(key == 13) ? env->y_trans += env->zoom * 10 : 0;
-		(key == 1) ? env->y_trans -= env->zoom * 10 : 0;
-		(key == 0) ? env->x_trans += env->zoom * 10 : 0;
-		(key == 2) ? env->x_trans -= env->zoom * 10 : 0;
+		(key == 13) ? env->y_trans += SHIFT : 0;
+		(key == 1) ? env->y_trans -= SHIFT : 0;
+		(key == 0) ? env->x_trans += SHIFT : 0;
+		(key == 2) ? env->x_trans -= SHIFT : 0;
 		multithread(env);
 	}
+	if (key == 49)
+		env->lock = (env->lock == 0) ? 1 : 0;
 	return (0);
 }
 
@@ -53,7 +55,6 @@ int		mouse_sierp(int key, int x, int y, t_env *env)
 {
 	if (key == 4 || key == 5)
 	{
-		//printf("%d\t%d\n", x, y);
 		if (key == 4)
 		{
 			env->zoom *= 1.346;
@@ -77,18 +78,11 @@ int		mouse_julia(int key, int x, int y, t_env *env)
 {
 	if (key == 4 || key == 5)
 	{
-		if (key == 4)
-		{
-			env->zoom *= 1.05;
-			env->x0 += (x - HALF_W + env->x_trans) * (env->zoom / 21);
-			env->y0 += (y - HALF_H + env->y_trans) * (env->zoom / 21);
-		}
-		if (key == 5)
-		{
-			env->zoom /= 1.05;
-			env->x0 -= (x - HALF_W + env->x_trans) * (env->zoom / 21);
-			env->y0 -= (y - HALF_H + env->y_trans) * (env->zoom / 21);
-		}
+		env->x0 += (x - env->x_trans) / ((WIN_W / 4) * env->zoom);
+		env->y0 += (y - env->y_trans) / ((WIN_W / 4) * env->zoom);
+		env->zoom *= ((key == 4) ? Z_MULT : 1 / Z_MULT);
+		env->x_trans = x;
+		env->y_trans = y;
 		multithread(env);
 	}
 	return (0);
@@ -98,33 +92,23 @@ int		mouse_mand(int key, int x, int y, t_env *env)
 {
 	if (key == 4 || key == 5)
 	{
-		if (key == 4)
-		{
-			env->zoom *= 1.1;
-			env->x0 += ((x - (WIN_W / 2)) / 11) * env->zoom;
-			env->y0 += ((y - (WIN_H / 2)) / 11) * env->zoom;
-		}
-		if (key == 5)
-		{
-			env->zoom /= 1.1;
-			env->x0 -= ((x - (WIN_W / 2)) / 11) * env->zoom;
-			env->y0 -= ((y - (WIN_H / 2)) / 11) * env->zoom;
-		}
+		env->x0 += (x - env->x_trans) / ((WIN_W / 4) * env->zoom);
+		env->y0 += (y - env->y_trans) / ((WIN_W / 4) * env->zoom);
+		env->zoom *= ((key == 4) ? Z_MULT : 1 / Z_MULT);
+		env->x_trans = x;
+		env->y_trans = y;
 		multithread(env);
-		//mlx_clear_window(env->mlx, env->win);
-		//draw_fractal(env, 0 , WIN_H);
-		//mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	}
 	return (0);
 }
 
 int		mouse_pos(int x, int y, t_env *env)
 {
-	if (x == env->ja && y == env->jb)
+	if ((x == env->ja && y == env->jb) || !env->lock)
 		return (0);
-	env->ja = (((double)x - WIN_W) / (WIN_W / 2)) + 1;
-	env->jb = (((double)y - WIN_H) / (WIN_H / 2)) + 1;
-	//printf("%lf\t%lf\n", env->ja, env->jb);
+	env->ja = ((((double)x - WIN_W) / (WIN_W / 2)) + 1);
+	env->jb = ((((double)y - WIN_H) / (WIN_H / 2)) + 1);
+	printf("%lf\t%lf\n", env->ja, env->jb);
 	multithread(env);
 	return (0);
 }

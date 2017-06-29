@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/27 12:58:26 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 10:45:44 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define HALF_W	WIN_W / 2
 # define HALF_H	WIN_H / 2
 # define BOUND	100
+# define Z_MULT	1.05
+# define SHIFT 5
 
 typedef struct	s_env
 {
@@ -37,11 +39,13 @@ typedef struct	s_env
 	double		ja;
 	double		jb;
 	double		zoom;
-	int			x0;
-	int			y0;
+	double		z_mult;
+	double		x0;
+	double		y0;
 	int			x_trans;
 	int			y_trans;
 	int			drawn;
+	int			lock;
 	pthread_t	tid[10];
 	int			(*f)(struct s_env *env, int x, int y);
 }				t_env;
