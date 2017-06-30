@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 15:29:11 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/29 16:09:34 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 17:04:31 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	draw_fractal(t_env *env, int y, int end_y)
 
 int		sierpinski(t_env *env, int x, int y)
 {
-	int		i;
-	int		a;
-	int		b;
+	int			i;
+	intmax_t	a;
+	intmax_t	b;
 
 	a = ((x - env->x_trans) / env->zoom) + env->x0;
 	b = ((y - env->y_trans) / env->zoom) + env->y0;
-	a = abs(a);
-	b = abs(b);
+	a = imaxabs(a);
+	b = imaxabs(b);
 	i = 0;
 	while (i < env->bound && (a > 0 || b > 0))
 	{

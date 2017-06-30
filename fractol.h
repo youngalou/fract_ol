@@ -6,7 +6,7 @@
 /*   By: lyoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:16:25 by lyoung            #+#    #+#             */
-/*   Updated: 2017/06/29 16:00:02 by lyoung           ###   ########.fr       */
+/*   Updated: 2017/06/29 17:03:45 by lyoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "minilibx/mlx.h"
 # include <math.h>
 # include <pthread.h>
+# include <inttypes.h>
 
 # define WIN_W	1200
 # define WIN_H	1200
