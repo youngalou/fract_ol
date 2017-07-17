@@ -30,6 +30,7 @@ This fractal exploration program implements a lot of cool tricks I picked up alo
 	- Use <kbd>2</kbd>, <kbd>5</kbd>, and <kbd>8</kbd> to increase red, green, and blue values respectively.
 	- Use <kbd>3</kbd>, <kbd>6</kbd>, and <kbd>9</kbd> to zero red, green, and blue values respectively.
 	- <kbd>clear</kbd> button will at any time reset the color sliders to default.
+	
 > --- | &darr; | &uarr; | 0
 > --- | --- | --- | ---
 > **B** | <kbd>7</kbd> | <kbd>8</kbd> | <kbd>9</kbd>
