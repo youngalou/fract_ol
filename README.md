@@ -1,6 +1,19 @@
 **Fract_ol**
 =======
 
+## Overview
+The object of this project was to create a fractal explorer program using a minimal graphics library which has functions capable of doing things like creating windows and changing pixel colors. To make the program user friendly and visually appealing, a few criteria were necessary to follow:
+1. Intuitive Controls
+>- Moving mouse to modify the Julia set.
+>- Zooming in and out directly from mouse position.
+>- Moving view through fractal immersively.
+2. Flexible Resolution & Color Pallet
+>- Ability to change resolution during run-time.
+>- Precise customization of colors.
+3. Optimization
+>- Image placement of all pixels *after* individual calculations.
+>- Implementation of parallel computation (multithreading) for further optimization.
+
 ## Install Instructions
 - <i class="icon-folder-open"></i> Navigate to the desired directory and run in your shell:
 <kbd>git clone https://github.com/youngalou/fract_ol.git</kbd>
