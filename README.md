@@ -52,4 +52,4 @@ Hit the <kbd>tab</kbd> button at any time to reset the explorer to the original 
 The <kbd>-</kbd> and <kbd>+</kbd> keys on the numpad will modify the maximum number of iterations each pixel will undergo in it's calculation to determine whether that complex number is bounded or unbounded. (Basically modifies the resolution, but also highly impacts processing speed)
 
 - **Lock Fractal**
-Only applies to the Julia set. By hitting <kbd>space</kbd> you will toggle fractal lock, locking the current Julia pattern in-place, allowing you to move you mouse and explore the fractal freely. Hitting again will release the lock and allow you to pick another pattern. (Reset before unlocking is recommended.)
+Only applies to the Julia set. By hitting <kbd>space</kbd> you will toggle fractal lock, locking the current Julia pattern in-place, allowing you to move your mouse and explore the fractal freely. Hitting again will release the lock and allow you to pick another pattern. (Reset before unlocking is recommended.)
