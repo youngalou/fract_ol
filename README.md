@@ -9,12 +9,12 @@ The object of this project was to create a fractal explorer program using a mini
 >- Moving view through fractal immersively.
 2. Flexible Resolution & Color Pallet
 >- Ability to change resolution during run-time.
->- Precise customization of colors.
+>- Precise customization of component colors.
 3. Optimization
 >- Image placement of all pixels *after* individual calculations.
 >- Implementation of parallel computation (multithreading) for further optimization.
 
-## Install Instructions
+## Install
 - <i class="icon-folder-open"></i> Navigate to the desired directory and run in your shell:
 <kbd>git clone https://github.com/youngalou/fract_ol.git</kbd>
 - <i class="icon-folder-open"></i> Enter the repository you just cloned and run:
